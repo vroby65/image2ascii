@@ -1,4 +1,7 @@
-# image2ascii
+
+
+# # image2ascii
+
 
 <img width="635" height="623" alt="immagine" src="https://github.com/user-attachments/assets/dd457456-d991-48d4-96d3-db110f82735c" />
 
@@ -22,8 +25,7 @@ https://github.com/vroby65/image2ascii
 ## Requirements
 
 - Python **3.8+**
-- [Pillow](https://pillow.readthedocs.io/) (`pip install pillow`)
-- **Optional (for .svg):** [CairoSVG](https://cairosvg.org/) (`pip install cairosvg`)
+- Dependencies listed in [`requirements.txt`](./requirements.txt)
 
 > Terminal must support **24-bit color** (most modern terminals do: Windows Terminal, iTerm2, GNOME Terminal, Alacritty, etc.).
 
@@ -37,18 +39,15 @@ git clone https://github.com/vroby65/image2ascii.git
 cd image2ascii
 
 # Install deps
-python3 -m pip install --upgrade pillow
-# Optional for SVG input:
-python3 -m pip install --upgrade cairosvg
+python3 -m pip install -r requirements.txt
 
 # Make it executable (Linux/macOS)
 chmod +x image2ascii
-```
 
 On Windows:
 
 ```powershell
-py -3 -m pip install --upgrade pillow cairosvg   # cairosvg optional
+py -3 -m pip install -r requirements.txt
 # Run with: 
 py image2ascii <args>
 ```
@@ -61,8 +60,9 @@ py image2ascii <args>
 image2ascii [-w WIDTH] imagefile
 ```
 
-* `-w WIDTH` → output width **in characters** (default: `40`)
-* `imagefile` → PNG/JPG by default, **SVG** if CairoSVG is installed
+- `-w WIDTH` → output width **in characters** (default: `40`)
+
+- `imagefile` → PNG/JPG by default, **SVG** if CairoSVG is installed
 
 Examples:
 
@@ -81,14 +81,14 @@ Examples:
 
 ## Tips
 
-* Save the colored output to a file and view it preserving ANSI codes:
+- Save the colored output to a file and view it preserving ANSI codes:
   
   ```bash
   ./image2ascii -w 100 pic.jpg > out.ans
   less -R out.ans
   ```
 
-* Strip ANSI color codes if you want plain text:
+- Strip ANSI color codes if you want plain text:
   
   ```bash
   ./image2ascii -w 80 img.png | sed -r 's/\x1b\[[0-9;]*m//g' > plain.txt
@@ -100,8 +100,9 @@ Examples:
 
 The image is resized, then every **2×2** pixel block becomes one `▀`:
 
-* Top average color → **foreground**
-* Bottom average color → **background**
+- Top average color → **foreground**
+
+- Bottom average color → **background**
 
 This halves the text height while keeping more vertical detail.
 
@@ -109,8 +110,9 @@ This halves the text height while keeping more vertical detail.
 
 ## Known notes
 
-* Some SVGs with external resources may need additional Cairo dependencies.
-* When redirecting to a file, ANSI escape codes are included by design.
+- Some SVGs with external resources may need additional Cairo dependencies.
+
+- When redirecting to a file, ANSI escape codes are included by design.
 
 ---
 
