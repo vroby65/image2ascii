@@ -1,6 +1,6 @@
 
 
-# # image2ascii
+# image2ascii
 
 
 <img width="635" height="623" alt="immagine" src="https://github.com/user-attachments/assets/dd457456-d991-48d4-96d3-db110f82735c" />
