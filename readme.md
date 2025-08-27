@@ -1,6 +1,6 @@
 # image2ascii
 
-![](/home/user/.config/marktext/images/2025-08-27-13-25-14-image.png)
+<img width="635" height="623" alt="immagine" src="https://github.com/user-attachments/assets/dd457456-d991-48d4-96d3-db110f82735c" />
 
 A tiny CLI that renders images as **true-color ASCII art** using the Unicode half block `▀`.  
 Supports PNG/JPG out of the box, and **SVG** via optional CairoSVG.
