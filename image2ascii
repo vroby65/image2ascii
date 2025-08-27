@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+from PIL import Image
+import sys, io, os
+
+try:
+    import cairosvg
+except ImportError:
+    cairosvg = None
+
+def to_ascii_half(img, new_width):
+    w, h = img.size
+    aspect = h / w
+    new_height = int(aspect * (new_width//2) * 0.5)
+    img = img.resize((new_width, new_height*2))
+    pixels = img.convert("RGB").load()
+
+    out = ""
+    for y in range(0, new_height*2, 2):
+        for x in range(0, new_width, 2):
+            r1,g1,b1 = pixels[x,y]
+            r2,g2,b2 = pixels[x+1,y]
+            top = ((r1+r2)//2, (g1+g2)//2, (b1+b2)//2)
+
+            r3,g3,b3 = pixels[x,y+1]
+            r4,g4,b4 = pixels[x+1,y+1]
+            bottom = ((r3+r4)//2, (g3+g4)//2, (b3+b4)//2)
+
+            out += f"\033[38;2;{top[0]};{top[1]};{top[2]}m\033[48;2;{bottom[0]};{bottom[1]};{bottom[2]}m▀"
+        out += "\033[0m\n"
+    return out
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: image2ascii [-w WIDTH] imagefile")
+        sys.exit(1)
+
+    width = 40
+    args = sys.argv[1:]
+
+    if args[0] == "-w":
+        width = int(args[1])
+        args = args[2:]
+
+    if not args:
+        print("Missing image file")
+        sys.exit(1)
+
+    path = args[0]
+
+    # Se è SVG → rasterizza
+    if path.lower().endswith(".svg"):
+        if not cairosvg:
+            print("⚠️ Install CairoSVG to support SVG: pip install cairosvg")
+            sys.exit(1)
+        data = cairosvg.svg2png(url=path)
+        img = Image.open(io.BytesIO(data))
+    else:
+        img = Image.open(path)
+
+    print(to_ascii_half(img, width*2))
+
+if __name__ == "__main__":
+    main()
